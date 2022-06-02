@@ -12,13 +12,13 @@ class Readsms {
   /// The stream containing sms as String
   Stream get smsStream => _controller.stream;
 
-  late final StreamSubscription _channelStramSubscription;
+  late final StreamSubscription _channelStreamSubscription;
 
   /// Listens to the broadcast stream exposed by the event
   /// channel and adds data on the [smsStream] whenever
   /// sms is received
   read() {
-    _channelStramSubscription = _channel.receiveBroadcastStream().listen((e) {
+    _channelStreamSubscription = _channel.receiveBroadcastStream().listen((e) {
       if (!_controller.isClosed) _controller.sink.add(e);
     });
   }
@@ -26,6 +26,6 @@ class Readsms {
   /// dispose method.
   void dispose() {
     _controller.close();
-    _channelStramSubscription.cancel();
+    _channelStreamSubscription.cancel();
   }
 }

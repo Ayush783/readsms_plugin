@@ -21,7 +21,7 @@ void main() {
   });
 
   tearDown(() {
-    // plugin.dispose();
+    plugin.dispose();
   });
 
   group('read sms plugin tests', () {
