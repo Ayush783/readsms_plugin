@@ -16,7 +16,9 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final _plugin = Readsms();
-  String sms = '';
+  String sms = 'no sms received';
+  String sender = 'no sms received';
+  String time = 'no sms received';
 
   @override
   void initState() {
@@ -26,7 +28,9 @@ class _MyAppState extends State<MyApp> {
         _plugin.read();
         _plugin.smsStream.listen((event) {
           setState(() {
-            sms = event;
+            sms = event.body;
+            sender = event.sender;
+            time = event.timeReceived.toString();
           });
         });
       }
@@ -59,7 +63,14 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('new sms received: $sms'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('new sms received: $sms'),
+              Text('new sms Sender: $sender'),
+              Text('new sms time: $time'),
+            ],
+          ),
         ),
       ),
     );
