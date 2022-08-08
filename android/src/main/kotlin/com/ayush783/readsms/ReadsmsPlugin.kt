@@ -11,6 +11,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.provider.Telephony
+import android.util.Log
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 
@@ -48,8 +49,10 @@ class ReadsmsPlugin: FlutterPlugin, EventChannel.StreamHandler,BroadcastReceiver
      */
     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
       for (sms in Telephony.Sms.Intents.getMessagesFromIntent(p1)) {
-//        Log.d("msg",sms.displayMessageBody);
-        eventSink?.success(sms.displayMessageBody)
+        // Log.d("msg sender", sms.originatingAddress.toString())
+        // Log.d("msg time",sms.timestampMillis.toString())
+        var data = listOf(sms.displayMessageBody,sms.originatingAddress.toString(),sms.timestampMillis.toString(),)
+        eventSink?.success(data)
       }
     }
   }
