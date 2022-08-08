@@ -13,7 +13,8 @@ void main() {
     TestDefaultBinaryMessengerBinding.instance!.defaultBinaryMessenger
         .handlePlatformMessage(
       "readsms",
-      const StandardMethodCodec().encodeSuccessEnvelope('Flutter'),
+      const StandardMethodCodec().encodeSuccessEnvelope(
+          ['Flutter', 'Sender798', 1659933434088.toString()]),
       (data) async {
         log('hello');
       },
@@ -29,13 +30,20 @@ void main() {
       expect(plugin, isA<Readsms>());
     });
 
+    test('expect stream of type SMS', () {
+      expect(plugin.smsStream, isA<Stream<SMS>>());
+    });
+
     test('check output', () {
-      expect(
-        plugin.smsStream.first,
-        completion(
-          equals('Flutter'),
-        ),
-      );
+      SMS sms =
+          SMS.fromList(['Flutter', 'Sender798', 1659933434088.toString()]);
+      final future = plugin.smsStream.first;
+      future.then((val) {
+        expect(val.body, sms.body);
+        expect(val.sender, sms.sender);
+        expect(val.timeReceived, sms.timeReceived);
+      });
+      expect(future, completes);
     });
   });
 }
