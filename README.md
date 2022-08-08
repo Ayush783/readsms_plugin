@@ -17,10 +17,14 @@ Following steps describe how to use the plugin ReadSms :-
 * Call the read method on the plugin object;
 ```dart
   plugin.read();
-```
-* Access the stream exposed by the plugin object and get the incoming SMS.
+``` 
+* Access the stream of SMS exposed by the plugin object and get the incoming SMS.
 ```dart
-  plugin.smsStream.listen((sms)=>print(sms));
+  plugin.smsStream.listen((sms){
+    print(sms.body);
+    print(sms.sender);
+    print(sms.timeReceived);
+  });
 ```
 
 That's all you need to do.
