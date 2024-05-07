@@ -10,7 +10,7 @@ void main() {
   late final Readsms plugin;
   setUpAll(() {
     plugin = Readsms()..read();
-    TestDefaultBinaryMessengerBinding.instance!.defaultBinaryMessenger
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .handlePlatformMessage(
       "readsms",
       const StandardMethodCodec().encodeSuccessEnvelope(
