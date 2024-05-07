@@ -2,7 +2,6 @@ import 'dart:async';
 export 'model/sms.dart';
 import 'package:flutter/services.dart';
 import 'package:readsms/model/sms.dart';
-export 'model/sms.dart';
 
 class Readsms {
   /// Event channel used for setting up the stream to receive

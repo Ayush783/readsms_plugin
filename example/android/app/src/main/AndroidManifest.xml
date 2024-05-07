@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ayush783.readsms_example">
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
    <application
         android:label="readsms_example"
         android:name="${applicationName}"
