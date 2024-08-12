@@ -48,13 +48,32 @@ class ReadsmsPlugin: FlutterPlugin, EventChannel.StreamHandler,BroadcastReceiver
      * using the Telephony.Sms.Intent
      */
     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-      for (sms in Telephony.Sms.Intents.getMessagesFromIntent(p1)) {
-        // Log.d("msg sender", sms.originatingAddress.toString())
-        // Log.d("msg time",sms.timestampMillis.toString())
-        var data = listOf(sms.displayMessageBody,sms.originatingAddress.toString(),sms.timestampMillis.toString(),)
-        eventSink?.success(data)
+      val smsList = Telephony.Sms.Intents.getMessagesFromIntent(p1)
+      val messagesGroupedByOriginatingAddress = smsList.groupBy { it.originatingAddress }
+      messagesGroupedByOriginatingAddress.forEach { group ->
+        processIncomingSms(context, group.value)
+      }
+      
+      // for (sms in smsList) {
+      //   // Log.d("msg sender", sms.originatingAddress.toString())
+      //   // Log.d("msg time",sms.timestampMillis.toString())
+      //   var data = listOf(sms.displayMessageBody,sms.originatingAddress.toString(),sms.timestampMillis.toString(),)
+      //   eventSink?.success(data)
+      // }
+    }
+  }
+
+  private fun processIncomingSms(context: Context, smsList: List<SmsMessage>) {
+    val messageMap = smsList.first().toMap()
+    smsList.forEachIndexed { index, smsMessage ->
+      if (index > 0) {
+        messageMap["message_body"] = (messageMap["message_body"] as String)
+          .plus(smsMessage.messageBody.trim())
       }
     }
+
+    var resultSms = listOf(messageMap["message_body"], messageMap["originating_address"], messageMap["timestamp"])
+    eventSink?.success(resultSms)
   }
 
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
