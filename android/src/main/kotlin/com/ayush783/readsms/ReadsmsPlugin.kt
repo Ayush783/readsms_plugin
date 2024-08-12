@@ -77,6 +77,21 @@ class ReadsmsPlugin: FlutterPlugin, EventChannel.StreamHandler,BroadcastReceiver
     eventSink?.success(resultSms)
   }
 
+  /**
+   * Convert the [SmsMessage] to a [HashMap]
+   */
+  fun SmsMessage.toMap(): HashMap<String, Any?> {
+    val smsMap = HashMap<String, Any?>()
+    this.apply {
+      smsMap["message_body"] = messageBody
+      smsMap["timestamp"] = timestampMillis.toString()
+      smsMap["originating_address"] = originatingAddress
+      smsMap["status"] = status.toString()
+      smsMap["service_center_address"] = serviceCenterAddress
+    }
+    return smsMap
+  }
+
   override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
     channel = null
     eventSink = null
