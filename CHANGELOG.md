@@ -1,3 +1,7 @@
+## 0.2.0+4
+* Fix #4
+* Updated flutter plugin loader to declarative.
+
 ## 0.1.0+3
 * Migrated to latest Flutter version
 * Added RECEIVE_SMS permission to AndroidManifest implicitly
